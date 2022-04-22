@@ -28,14 +28,40 @@ test('counter increments and decrements when the buttons are clicked', () => {
 
   //
   // 🐨 expect the message.textContent toBe 'Current count: 0'
-  expect(message.textContent).toBe('Current count: 0')
   // 🐨 click the increment button (💰 act(() => increment.click()))
-  act(() => increment.click())
+
+  // Simple solution-------------
+
+  // expect(message.textContent).toBe('Current count: 0')
+  // act(() => increment.click())
+  // expect(message.textContent).toBe('Current count: 1')
+  // act(() => increment.click())
+  // expect(message.textContent).toBe('Current count: 2')
+  // act(() => decrement.click())
+  // expect(message.textContent).toBe('Current count: 1')
+
+  // Simple solution-------------
+
+  // Advanced solution-------------
+  expect(message.textContent).toBe('Current count: 0')
+
+  const incrementClickEvent = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+    button: 0,
+  })
+
+  const decrementClickEvent = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+    button: 0,
+  })
+
+  act(() => increment.dispatchEvent(incrementClickEvent))
   expect(message.textContent).toBe('Current count: 1')
-  act(() => increment.click())
-  expect(message.textContent).toBe('Current count: 2')
-  act(() => decrement.click())
-  expect(message.textContent).toBe('Current count: 1')
+  act(() => decrement.dispatchEvent(decrementClickEvent))
+  expect(message.textContent).toBe('Current count: 0')
+  // Advanced solution-------------
 
   // 🐨 assert the message.textContent
   // 🐨 click the decrement button (💰 act(() => decrement.click()))
